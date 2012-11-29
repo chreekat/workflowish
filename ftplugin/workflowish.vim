@@ -8,6 +8,9 @@ setlocal foldexpr=WorkflowishCompactFoldLevel(v:lnum)
 
 setlocal autoindent
 
+" Include tag identifiers as parts of keywords, for ease of commands such as *
+setlocal isk+=@-@,#
+
 " Settings {{{
 
 " This will use horizontal scroll in focus mode
