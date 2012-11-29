@@ -55,8 +55,19 @@ else
 end
 
 function! s:WindowWidth()
-  " TODO: signcolumn takes up 2 columns, hardcoded
-  return winwidth(0) - &fdc - &number*&numberwidth - 2
+  let pad = 2
+
+  " Calc existence of sign column
+  redir => l:signs
+  exec "silent sign place buffer=".bufnr('%')
+  redir END
+  if match(l:signs, '\n    line') >= 0
+    let signColumn = 2
+  else
+    let signColumn = 0
+  endif
+
+  return winwidth(0) - &fdc - &number*&numberwidth - signColumn - pad
 endfunction
 
 function! s:StripEnd(str)
