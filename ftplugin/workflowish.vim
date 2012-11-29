@@ -22,6 +22,10 @@ if !exists("g:workflowish_disable_zq_warning")
   let g:workflowish_disable_zq_warning = 0
 endif
 
+if !exists("g:workflowish_hide_completed")
+  let g:workflowish_hide_completed = 0
+endif
+
 "}}}
 " Keybindings {{{
 
@@ -188,6 +192,11 @@ function! WorkflowishFoldText()
     let lines = v:foldend - v:foldstart
     let firstline = getline(v:foldstart)
     let textend = '|' . lines . '| '
+
+    " Hide done items
+    if g:workflowish_hide_completed && firstline =~ "^\\s*-"
+      let firstline = substitute(firstline, "^\\s*\\zs- .*", "[ COMPLETED ]", "")
+    endif
 
     if g:workflowish_experimental_horizontal_focus == 1 && s:GetFocusOn() > 0
       let firstline = substitute(firstline, "\\v^ {".w:workflowish_focus_indent."}", "", "")
